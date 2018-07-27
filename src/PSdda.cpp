@@ -34,8 +34,13 @@ int main(int argc, char* argv[])
     char* buf = new char[filesize];
     result = fread(buf, 1, filesize, psdfile);
 
-    printf("文件大小:%d\t\t文件名:%s\n",  filesize, savefile);
 
+    if (filesize > 10 * 1024 * 1024)
+        printf("文件大小: %d MB\t\t文件名:%s\n",  filesize / 1024 / 1024, savefile);
+    else
+        printf("文件大小: %d KB\t\t文件名:%s\n",  filesize / 1024 + 1, savefile);
+
+    fclose(psdfile);
 
     const char* flag_beg = "<photoshop:DocumentAncestors>" ;
     const char* flag_end = "</photoshop:DocumentAncestors>" ;
@@ -53,14 +58,20 @@ int main(int argc, char* argv[])
 
         pos = pch - buf;
         pos2 = pch2 - buf + strlen(flag_end);
-        printf("DocumentAncestors标记起止: %d   -->  %d\n",  pos, pos2);
 
-        memset(pch, '+', pos2 - pos);   // 清楚垃圾数据
+        if (pos2 < pos) {
+            fputs("File error", stderr);
+            exit(1);
+        }
+
+        printf("DocumentAncestors标记起止: 0x%X  -->  0x%X\n",  pos, pos2);
+
+        memset(pch, ' ', pos2 - pos);   // 清除垃圾数据，使用空格填充
 
         flag_found = true;
 
-        pch = memfind(buf, flag_beg, result);
-        pch2 = memfind(buf, flag_end, result);
+        pch = memfind(buf + pos2, flag_beg, result - pos2);
+        pch2 = memfind(buf + pos2, flag_end, result - pos2);
     }
 
     if (!flag_found) {
@@ -83,7 +94,7 @@ int main(int argc, char* argv[])
 
     delete [] buf;
     fclose(pFile);
-    fclose(psdfile);
+
 
     return 0;
 }
