@@ -1,4 +1,5 @@
-# psdda
+# 本工具清除PSD文件中垃圾数据 by 蘭公子 sRGB.vicp.net
+
 使用方法   src/PSdda.cpp 是源码
 
 双击  PSD大文件修复工具.bat  打开一个命令行窗口
@@ -14,3 +15,5 @@
 可以有两个方法解决
 1. 把智能对象合并图层
 2. 把智能对象导出，再导入应该就可以
+
+![](https://raw.githubusercontent.com/hongwenjun/psdda/master/psdda.gif)
