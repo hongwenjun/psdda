@@ -5,12 +5,12 @@
 size_t get_fileSize(const char* filename);
 const char* GetFileBaseName(const char* szPath);
 char* memfind(const char* buf, const char* tofind, size_t len);
+void helpinfo(void);
 
 int main(int argc, char* argv[])
 {
     if (argc == 1) {
-        printf("本工具清除PSD文件中垃圾数据 by 蘭公子 sRGB.vicp.net\n\n");
-        printf("Usage: psdda.exe  test.psd  [fix_psd.psd] \n");
+        helpinfo();
         return -1;
     }
 
@@ -100,6 +100,15 @@ int main(int argc, char* argv[])
 }
 
 
+
+
+void helpinfo(void)
+{
+    printf("本工具清除PSD文件中垃圾数据 by 蘭公子 sRGB.vicp.net\n");
+    printf("开源代码    https://github.com/hongwenjun/psdda\n\n");
+    printf("Usage: psdda.exe  test.psd  [fix_psd.psd] \n\n");
+    printf("可以 只一个文件名参数,自动加前缀Fix_; 如果2个文件名相同,覆盖文件!\n\n");
+}
 
 
 // 获得文件大小
