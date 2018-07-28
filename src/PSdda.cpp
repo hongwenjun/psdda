@@ -127,7 +127,8 @@ size_t get_fileSize(const char* filename)
 const char* GetFileBaseName(const char* szPath)
 {
     const char* ret = szPath + strlen(szPath);
-    while ((*ret != '\\') && (ret != (szPath - 1))) // 得到文件名
+    while (!((*ret == '\\') || (*ret == '/'))
+            && (ret != (szPath - 1))) // 得到文件名
         ret--;
     ret++;
     return ret;
